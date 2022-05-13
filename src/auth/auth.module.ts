@@ -20,9 +20,11 @@ dotenv.config();
       },
     }),
     TypeOrmModule.forFeature([UsuariosRepository]),
+    UsuariosRepository,
   ],
+
   controllers: [AuthController],
   providers: [AuthService, EncoderService, JwtStrategy],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, UsuariosRepository],
 })
 export class AuthModule {}

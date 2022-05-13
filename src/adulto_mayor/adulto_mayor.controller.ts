@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -14,20 +15,23 @@ import { CreateAdultoMayorDto } from './dto/create-adulto_mayor.dto';
 import { UpdateAdultoMayorDto } from './dto/update-adulto_mayor.dto';
 import { SearchAdultoMayorDto } from './dto/search-adultos_mayores.dt';
 
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('adulto-mayor')
 export class AdultoMayorController {
   constructor(private readonly adultoMayorService: AdultoMayorService) {}
 
   @Post('/create')
-  create(@Body() createAdultoMayorDto: CreateAdultoMayorDto) {
-    return this.adultoMayorService.createAdultoMayor(createAdultoMayorDto);
+  create(@Request() req, @Body() createAdultoMayorDto: CreateAdultoMayorDto) {
+    return this.adultoMayorService.createAdultoMayor(
+      createAdultoMayorDto,
+      req.user,
+    );
   }
 
-  /*   @Get()
-  findAll(@Body() searchAdultoMayorDto: SearchAdultoMayorDto) {
-    return this.adultoMayorService.findAllMyAdultoMayor(searchAdultoMayorDto);
-  } */
+  @Get('/findAll')
+  findAll(@Request() req) {
+    return this.adultoMayorService.findAllMyAdultoMayor(req.user.id);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

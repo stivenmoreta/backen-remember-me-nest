@@ -37,17 +37,9 @@ export class Usuario {
   @OneToMany(() => AdultoMayor, (adultomayor) => adultomayor.usuario)
   adulto_mayor: AdultoMayor[];
 
-  @CreateDateColumn({
-    name: 'createdAt',
-    type: 'timestamp',
-    default: new Date(),
-  })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({
-    name: 'updatedAt',
-    type: 'timestamp',
-    default: new Date(),
-  })
+  @UpdateDateColumn()
   updatedAt: Date;
 }

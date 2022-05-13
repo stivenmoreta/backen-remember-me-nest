@@ -4,6 +4,7 @@ import { CreateAdultoMayorDto } from './dto/create-adulto_mayor.dto';
 import { UpdateAdultoMayorDto } from './dto/update-adulto_mayor.dto';
 import { AdultoMayorRepository } from './adulto_mayor.repository';
 import { AdultoMayor } from './entities/adulto_mayor.entity';
+import { Usuario } from '../auth/entities/usuario.entity';
 
 @Injectable()
 export class AdultoMayorService {
@@ -12,16 +13,19 @@ export class AdultoMayorService {
     private adultoMayorRepository: AdultoMayorRepository,
   ) {}
 
+  // eslint-disable-next-line prettier/prettier
   async createAdultoMayor(
     createAdultoMayorDto: CreateAdultoMayorDto,
+    usuario: Usuario,
   ): Promise<void> {
     return await this.adultoMayorRepository.createAdultoMayor(
       createAdultoMayorDto,
+      usuario,
     );
   }
 
-  async findAllMyAdultoMayor({ idUsuario }): Promise<AdultoMayor[]> {
-    return await this.adultoMayorRepository.findAllMyAdultoMayor(idUsuario);
+  async findAllMyAdultoMayor(usuarioId: string): Promise<AdultoMayor[]> {
+    return await this.adultoMayorRepository.findAllMyAdultoMayor(usuarioId);
   }
 
   findOne(id: number) {

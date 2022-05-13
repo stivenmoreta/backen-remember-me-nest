@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumberString,
+  IsString,
+  Length,
+} from 'class-validator';
 export class CreateAdultoMayorDto {
   @IsNotEmpty()
   @IsString()
@@ -20,15 +26,13 @@ export class CreateAdultoMayorDto {
   email: string;
 
   @IsNotEmpty()
+  @IsNumberString()
   @Length(9, 9, { message: 'El telefono debe tener 9 caracteres' })
   telefono: string;
 
   @IsNotEmpty()
-  @Length(0, 150, {
-    message: 'La direccion debe tener entre 0 y 150 caracteres ',
+  @Length(2, 150, {
+    message: 'La direccion debe tener entre 2 y 150 caracteres ',
   })
   direccion: string;
-
-  @IsNotEmpty({ message: 'Debe ingresar el id del usuario' })
-  usuarioId: string;
 }

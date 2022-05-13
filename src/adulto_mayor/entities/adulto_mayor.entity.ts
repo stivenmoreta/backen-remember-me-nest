@@ -2,11 +2,16 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+//ENTITYS
 import { Usuario } from '../../auth/entities/usuario.entity';
+import { Medicamento } from '../../medicamento/entities/medicamento.entity';
+
 @Entity()
 export class AdultoMayor {
   @PrimaryGeneratedColumn('uuid')
@@ -30,26 +35,24 @@ export class AdultoMayor {
   @Column({ type: 'varchar', length: 150 })
   direccion: string;
 
-  //m:N
+  //M:1
   //Muchos adultos mayores tienen solo tiene un usuario
   @ManyToOne(() => Usuario, (usuario) => usuario.adulto_mayor)
+  @JoinColumn({ name: 'fk_usuario_id' })
   usuario: Usuario;
+
+  //1:M
+  //Un adulto mayor tiene muchos medicamentos
+  @OneToMany(() => Medicamento, (medicamento) => medicamento.adultoMayor)
+  medicamento: Medicamento[];
 
   /* 
   fichaSalud(JSON)
   */
 
-  @CreateDateColumn({
-    name: 'createdAt',
-    type: 'timestamp',
-    default: new Date(),
-  })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({
-    name: 'updatedAt',
-    type: 'timestamp',
-    default: new Date(),
-  })
+  @UpdateDateColumn()
   updatedAt: Date;
 }
