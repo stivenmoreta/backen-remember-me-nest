@@ -1,16 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+//MEDICAMENTO
 import { MedicamentoController } from './medicamento.controller';
 import { MedicamentoService } from './medicamento.service';
+//ENTYTIS
 import { Medicamento } from './entities/medicamento.entity';
-import { MedicamentoRepository } from './medicmaneto.repository';
-import { AdultoMayorModule } from '../adulto_mayor/adulto_mayor.module';
+import { AdultoMayor } from 'src/adulto_mayor/entities/adulto_mayor.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([MedicamentoRepository]),
-    AdultoMayorModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Medicamento, AdultoMayor])],
   controllers: [MedicamentoController],
   providers: [MedicamentoService],
 })

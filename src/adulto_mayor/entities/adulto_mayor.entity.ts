@@ -5,12 +5,15 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 //ENTITYS
 import { Usuario } from '../../auth/entities/usuario.entity';
 import { Medicamento } from '../../medicamento/entities/medicamento.entity';
+//DTO
+import { FichaMedicaDto } from '../dto/ficha-medica';
 
 @Entity()
 export class AdultoMayor {
@@ -46,9 +49,8 @@ export class AdultoMayor {
   @OneToMany(() => Medicamento, (medicamento) => medicamento.adultoMayor)
   medicamento: Medicamento[];
 
-  /* 
-  fichaSalud(JSON)
-  */
+  @Column({ type: 'jsonb', default: null })
+  fichaMedica: FichaMedicaDto;
 
   @CreateDateColumn()
   createdAt: Date;

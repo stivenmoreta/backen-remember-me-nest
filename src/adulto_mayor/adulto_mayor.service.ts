@@ -1,42 +1,50 @@
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+//ENTITY
+import { Usuario } from 'src/auth/entities/usuario.entity';
+import { AdultoMayor } from './entities/adulto_mayor.entity';
+//DTO
 import { CreateAdultoMayorDto } from './dto/create-adulto_mayor.dto';
 import { UpdateAdultoMayorDto } from './dto/update-adulto_mayor.dto';
-import { AdultoMayorRepository } from './adulto_mayor.repository';
-import { AdultoMayor } from './entities/adulto_mayor.entity';
-import { Usuario } from '../auth/entities/usuario.entity';
+import { Repository } from 'typeorm';
 
-@Injectable()
 export class AdultoMayorService {
   constructor(
-    @InjectRepository(AdultoMayorRepository)
-    private adultoMayorRepository: AdultoMayorRepository,
+    @InjectRepository(AdultoMayor)
+    private adultoMayorRepository: Repository<AdultoMayor> /*     @InjectRepository(Usuario)
+    private usuarioRepository: Repository<Usuario>, */,
   ) {}
 
-  // eslint-disable-next-line prettier/prettier
   async createAdultoMayor(
-    createAdultoMayorDto: CreateAdultoMayorDto,
     usuario: Usuario,
+    createAdultoMayorDto: CreateAdultoMayorDto,
   ): Promise<void> {
-    return await this.adultoMayorRepository.createAdultoMayor(
+    const newAdultoMayor = construccionNewAdultoMayor(
       createAdultoMayorDto,
       usuario,
     );
+    await this.adultoMayorRepository.save(newAdultoMayor);
   }
 
+  //Quiero todos mis adultos mayores | any por mientras
   async findAllMyAdultoMayor(usuarioId: string): Promise<AdultoMayor[]> {
-    return await this.adultoMayorRepository.findAllMyAdultoMayor(usuarioId);
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} adultoMayor`;
-  }
-
-  update(id: number, updateAdultoMayorDto: UpdateAdultoMayorDto) {
-    return `This action updates a #${id} adultoMayor`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} adultoMayor`;
+    return await this.adultoMayorRepository.find({
+      where: { usuario: usuarioId },
+    });
   }
 }
+
+const construccionNewAdultoMayor = (
+  createAdultoMayorDto,
+  usuario,
+): AdultoMayor => {
+  const newAdultoMayor = new AdultoMayor();
+  newAdultoMayor.usuario = usuario;
+  newAdultoMayor.nombre = createAdultoMayorDto.nombre;
+  newAdultoMayor.apellido = createAdultoMayorDto.apellido;
+  newAdultoMayor.rut = createAdultoMayorDto.rut;
+  newAdultoMayor.email = createAdultoMayorDto.email;
+  newAdultoMayor.direccion = createAdultoMayorDto.direccion;
+  newAdultoMayor.telefono = createAdultoMayorDto.telefono;
+  newAdultoMayor.fichaMedica = createAdultoMayorDto.fichaMedica;
+  return newAdultoMayor;
+};

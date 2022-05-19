@@ -1,42 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AdultoMayor } from 'src/adulto_mayor/entities/adulto_mayor.entity';
+//REPOSITORYS
+import { Repository } from 'typeorm';
+//DTOS
 import { CreateMedicamentoDto } from './dto/create-medicamento.dto';
 import { UpdateMedicamentoDto } from './dto/update-medicamento.dto';
-import { MedicamentoRepository } from './medicmaneto.repository';
+//ENTITY
+import { Medicamento } from './entities/medicamento.entity';
+import { AdultoMayor } from '../adulto_mayor/entities/adulto_mayor.entity';
 
 @Injectable()
 export class MedicamentoService {
   constructor(
-    @InjectRepository(MedicamentoRepository)
-    private medicamentoRepository: MedicamentoRepository,
+    @InjectRepository(Medicamento)
+    private medicamentoRepository: Repository<Medicamento>,
+    @InjectRepository(AdultoMayor)
+    private adultoMayorRepository: Repository<AdultoMayor>,
   ) {}
 
-  createMedicamento(
+  async createMedicamento(
     idAdultoMayor: string,
     createMedicamentoDto: CreateMedicamentoDto,
-  ) {
-    console.log(idAdultoMayor);
-    console.log(createMedicamentoDto);
-    return this.medicamentoRepository.createMedicamento(
-      idAdultoMayor,
-      createMedicamentoDto,
-    );
+  ): Promise<void> {
+    //necesito el id del abuelo para sacar sus datos y ingresar sus medicamentos
+    const adultoMayor = await this.adultoMayorRepository.findOne({
+      where: { id: idAdultoMayor },
+    });
+
+    //creo un medicamento y le asigno su adulto mayor
+    const newMedicamento = new Medicamento();
+    newMedicamento.adultoMayor = adultoMayor;
+    newMedicamento.nombre = createMedicamentoDto.nombre;
+    newMedicamento.dosis = createMedicamentoDto.dosis;
+    newMedicamento.horario = createMedicamentoDto.horario;
+    newMedicamento.fecha_inicio = createMedicamentoDto.fecha_inicio;
+    newMedicamento.fecha_termino = createMedicamentoDto.fecha_termino;
+    await this.medicamentoRepository.save(newMedicamento);
   }
 
-  findAll() {
-    return `This action returns all medicamento`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} medicamento`;
-  }
-
-  update(id: number, updateMedicamentoDto: UpdateMedicamentoDto) {
-    return `This action updates a #${id} medicamento`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} medicamento`;
+  async findAll(idAdultoMayor: string): Promise<Medicamento[]> {
+    return await this.medicamentoRepository.find({
+      where: { adultoMayor: idAdultoMayor },
+    });
   }
 }

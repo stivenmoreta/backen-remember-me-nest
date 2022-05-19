@@ -1,10 +1,12 @@
 import {
   IsEmail,
+  IsJSON,
   IsNotEmpty,
   IsNumberString,
   IsString,
   Length,
 } from 'class-validator';
+import { FichaMedicaDto } from './ficha-medica';
 export class CreateAdultoMayorDto {
   @IsNotEmpty()
   @IsString()
@@ -35,4 +37,6 @@ export class CreateAdultoMayorDto {
     message: 'La direccion debe tener entre 2 y 150 caracteres ',
   })
   direccion: string;
+
+  fichaMedica: FichaMedicaDto;
 }
