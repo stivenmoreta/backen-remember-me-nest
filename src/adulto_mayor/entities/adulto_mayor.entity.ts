@@ -49,7 +49,7 @@ export class AdultoMayor {
   @OneToMany(() => Medicamento, (medicamento) => medicamento.adultoMayor)
   medicamento: Medicamento[];
 
-  @Column({ type: 'jsonb', default: null })
+  @Column({ type: 'json', default: null })
   fichaMedica: FichaMedicaDto;
 
   @CreateDateColumn()

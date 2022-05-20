@@ -39,7 +39,7 @@ export class AuthService {
 
       const data = {
         accessToken,
-        nombre: usuario.nombre,
+        ...usuario,
       };
       return data;
     }
