@@ -13,6 +13,7 @@ export class UsuariosRepository extends Repository<Usuario> {
     try {
       await this.save(user);
     } catch (error) {
+      console.log(error)
       if (error.code === '23505') {
         if (error.detail.includes('rut')) {
           throw new ConflictException({

@@ -7,12 +7,10 @@ export class CreateMedicamentoDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(1, 1)
   dosis: string;
 
   @IsNotEmpty()
   @IsString()
-  @Length(1, 2)
   horario: string;
 
   @IsNotEmpty()

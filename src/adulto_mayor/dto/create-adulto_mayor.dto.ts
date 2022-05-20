@@ -20,7 +20,7 @@ export class CreateAdultoMayorDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(9, 9, { message: 'El rut debe tener 9 caracteres' })
+  @Length(8, 10, { message: 'El rut debe tener 9 caracteres' })
   rut: string;
 
   @IsNotEmpty()

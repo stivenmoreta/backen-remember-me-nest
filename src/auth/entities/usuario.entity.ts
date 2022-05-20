@@ -20,7 +20,7 @@ export class Usuario {
   @Column({ type: 'varchar', length: 30 })
   apellido: string;
 
-  @Column({ unique: true, type: 'varchar', length: 9 })
+  @Column({ unique: true, type: 'varchar', length: 120 })
   rut: string;
 
   @Column({ unique: true, type: 'varchar', length: 120 })
@@ -32,7 +32,7 @@ export class Usuario {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, default: null })
   tempToken: string;
 
   //n:m
