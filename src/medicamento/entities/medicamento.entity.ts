@@ -18,10 +18,10 @@ export class Medicamento {
   nombre: string;
 
   @Column({ type: 'varchar', length: 100 })
-  dosis: number;
+  dosis: string;
 
   @Column()
-  horario: number;
+  horario: string;
 
   @Column()
   fecha_inicio: Date;

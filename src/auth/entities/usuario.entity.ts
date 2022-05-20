@@ -32,6 +32,9 @@ export class Usuario {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
+  @Column({ type: 'varchar', length: 100 })
+  tempToken: string;
+
   //n:m
   //Un usuario tiene muchos adultos mayores
   @OneToMany(() => AdultoMayor, (adultomayor) => adultomayor.usuario)

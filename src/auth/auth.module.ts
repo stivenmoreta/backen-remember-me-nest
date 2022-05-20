@@ -9,6 +9,7 @@ import { UsuariosRepository } from './usuarios.repository';
 
 import * as dotenv from 'dotenv';
 import { JwtStrategy } from './jwt.strategy';
+import { MailtrapModule } from 'src/mailtrap/mailtrap.module';
 dotenv.config();
 @Module({
   imports: [
@@ -21,6 +22,7 @@ dotenv.config();
     }),
     TypeOrmModule.forFeature([UsuariosRepository]),
     UsuariosRepository,
+    MailtrapModule,
   ],
 
   controllers: [AuthController],
