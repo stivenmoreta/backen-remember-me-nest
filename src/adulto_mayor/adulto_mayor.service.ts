@@ -31,6 +31,12 @@ export class AdultoMayorService {
       where: { usuario: usuarioId },
     });
   }
+
+  async findByRut(rut: string): Promise<AdultoMayor> {
+    return this.adultoMayorRepository.findOne({
+      where: { rut },
+    });
+  }
 }
 
 const construccionNewAdultoMayor = (

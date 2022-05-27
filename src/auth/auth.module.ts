@@ -10,6 +10,7 @@ import { UsuariosRepository } from './usuarios.repository';
 import * as dotenv from 'dotenv';
 import { JwtStrategy } from './jwt.strategy';
 import { MailtrapModule } from 'src/mailtrap/mailtrap.module';
+import { AdultoMayorModule } from 'src/adulto_mayor/adulto_mayor.module';
 dotenv.config();
 @Module({
   imports: [
@@ -23,6 +24,7 @@ dotenv.config();
     TypeOrmModule.forFeature([UsuariosRepository]),
     UsuariosRepository,
     MailtrapModule,
+    AdultoMayorModule,
   ],
 
   controllers: [AuthController],

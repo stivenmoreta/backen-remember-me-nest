@@ -6,8 +6,14 @@ import ConnectDbModule from './connect.db.module';
 import { MailtrapModule } from './mailtrap/mailtrap.module';
 
 @Module({
-  imports: [ConnectDbModule, AuthModule, AdultoMayorModule, MedicamentoModule, MailtrapModule],
+  imports: [
+    ConnectDbModule,
+    AdultoMayorModule,
+    AuthModule,
+    MedicamentoModule,
+    MailtrapModule,
+  ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

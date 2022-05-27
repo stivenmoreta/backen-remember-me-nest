@@ -9,10 +9,13 @@ import { JwtPayload } from '../jwt.payload.interface';
 import { RecoverDto } from '../dto/recover.usuario.dto';
 import { MailtrapService } from '../../mailtrap/mailtrap.service';
 import { ResetDto } from '../dto/reset.usuario.dto';
+import { AdultoMayorService } from 'src/adulto_mayor/adulto_mayor.service';
+import { LoginAdultoDto } from '../dto/login.adulto.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private adultoMayorService: AdultoMayorService,
     @InjectRepository(UsuariosRepository)
     private usuariosRepository: UsuariosRepository,
     private encoderService: EncoderService,
@@ -50,6 +53,28 @@ export class AuthService {
     throw new UnauthorizedException('Credenciales incorrectas');
   }
 
+  async loginAdulto(
+    loginDto: LoginAdultoDto,
+  ): Promise<{ accessToken: string }> {
+    const { rut } = loginDto;
+    const usuario = await this.adultoMayorService.findByRut(rut);
+    if (usuario) {
+      const payload: JwtPayload = {
+        id: usuario.id,
+        email: usuario.email,
+      };
+      const accessToken = await this.jwtService.sign(payload);
+
+      const data = {
+        accessToken,
+        ...usuario,
+      };
+      return data;
+    }
+
+    throw new UnauthorizedException('Rut incorrecto');
+  }
+
   async recover(recoverDto: RecoverDto): Promise<boolean> {
     const { email } = recoverDto;
     const usuario = await this.usuariosRepository.findOneByEmail(email);
@@ -57,8 +82,10 @@ export class AuthService {
       const tempToken = Math.random().toString(36).substring(7);
       await this.usuariosRepository.update({ email }, { tempToken });
 
-      const url = 'http://127.0.0.1:5500/pages/reiniciar.html?tempToken=' + tempToken;
-      const html = `
+      const url =
+        'http://127.0.0.1:5500/pages/reiniciar.html?tempToken=' + tempToken;
+      const html =
+        `
       <!doctype html>
       <html lang="en-US">
       
@@ -108,7 +135,9 @@ export class AuthService {
                                               <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
                                               Se ha generado una contraseña para usted. Para reiniciar su contraseña, haga clic en el siguiente enlace y siga las instrucciones.
                                               </p>
-                                              <a href=`+ url +`
+                                              <a href=` +
+        url +
+        `
                                                   style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reiniciar
                                                   Contraseña</a>
                                           </td>
