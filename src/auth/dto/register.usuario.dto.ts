@@ -13,7 +13,7 @@ export class RegisterUsuarioDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(9, 9, { message: 'El rut debe tener 9 caracteres' })
+  @Length(8, 11, { message: 'El rut debe tener 9 caracteres' })
   rut: string;
 
   @IsNotEmpty()

@@ -26,7 +26,7 @@ export class AdultoMayor {
   @Column({ type: 'varchar', length: 30 })
   apellido: string;
 
-  @Column({ unique: true, type: 'varchar', length: 9 })
+  @Column({ unique: true, type: 'varchar', length: 120 })
   rut: string;
 
   @Column({ unique: true, type: 'varchar', length: 120 })
@@ -49,7 +49,7 @@ export class AdultoMayor {
   @OneToMany(() => Medicamento, (medicamento) => medicamento.adultoMayor)
   medicamento: Medicamento[];
 
-  @Column({ type: 'jsonb', default: null })
+  @Column({ type: 'json', default: null })
   fichaMedica: FichaMedicaDto;
 
   @CreateDateColumn()

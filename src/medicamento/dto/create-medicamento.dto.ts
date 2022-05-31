@@ -6,14 +6,12 @@ export class CreateMedicamentoDto {
   nombre: string;
 
   @IsNotEmpty()
-  @IsNumberString()
-  @Length(1, 1)
-  dosis: number;
+  @IsString()
+  dosis: string;
 
   @IsNotEmpty()
-  @IsNumberString()
-  @Length(1, 2)
-  horario: number;
+  @IsString()
+  horario: string;
 
   @IsNotEmpty()
   fecha_inicio: Date;

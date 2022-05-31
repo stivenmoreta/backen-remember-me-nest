@@ -20,7 +20,7 @@ export class CreateAdultoMayorDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(9, 9, { message: 'El rut debe tener 9 caracteres' })
+  @Length(8, 10, { message: 'El rut debe tener 9 caracteres' })
   rut: string;
 
   @IsNotEmpty()
@@ -28,11 +28,12 @@ export class CreateAdultoMayorDto {
   email: string;
 
   @IsNotEmpty()
-  @IsNumberString()
+  @IsString()
   @Length(9, 9, { message: 'El telefono debe tener 9 caracteres' })
   telefono: string;
 
   @IsNotEmpty()
+  @IsString()
   @Length(2, 150, {
     message: 'La direccion debe tener entre 2 y 150 caracteres ',
   })

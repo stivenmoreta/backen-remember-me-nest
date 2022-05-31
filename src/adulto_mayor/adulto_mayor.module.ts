@@ -7,8 +7,9 @@ import { AdultoMayorService } from './adulto_mayor.service';
 import { AdultoMayor } from './entities/adulto_mayor.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AdultoMayor]), AuthModule],
+  imports: [TypeOrmModule.forFeature([AdultoMayor])],
   controllers: [AdultoMayorController],
   providers: [AdultoMayorService],
+  exports: [AdultoMayorService],
 })
 export class AdultoMayorModule {}
