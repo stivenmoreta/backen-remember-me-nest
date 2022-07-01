@@ -1,3 +1,4 @@
+import { Historial } from 'src/medicamento/entities/historial.entity';
 import {
   Column,
   CreateDateColumn,
@@ -5,7 +6,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -48,6 +48,9 @@ export class AdultoMayor {
   //Un adulto mayor tiene muchos medicamentos
   @OneToMany(() => Medicamento, (medicamento) => medicamento.adultoMayor)
   medicamento: Medicamento[];
+
+  @OneToMany(() => Historial, (historial) => historial.adultoMayor)
+  historial: Historial[];
 
   @Column({ type: 'json', default: null })
   fichaMedica: FichaMedicaDto;
